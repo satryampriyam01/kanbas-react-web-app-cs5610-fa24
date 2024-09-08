@@ -44,7 +44,6 @@ tag to tell browsers to render the gaps.
   </ol>
 </div>
 
-
 <div id="wd-tables">
         <h4>Table Tag</h4>
         <table border={1} width="100%">	{/* table, border, width */}

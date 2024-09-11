@@ -29,7 +29,7 @@ export default function Assignments(){
         <li className="wd-assignment-list-item">
         <a className="wd-assignment-link"
             href="#/Kanbas/Courses/1234/Assignments/123">
-            A2 - JAVASCRIPT + REACT
+            A3 - JAVASCRIPT + REACT
             </a>
            Multiple Modules | <b>NOT available untill</b> May 20 at 12:00am | <br/>
           <b>Due</b> May 27 at 11:59 | 100pts

@@ -88,39 +88,47 @@ export default function AssignmentEditor() {
 
         <tr>
           <td>
-            Assign
-            <label htmlFor="wd-assign-to"> Assign to</label>
+            <label>Assign</label>
+            <br />
+            <label htmlFor="assign-to">Assign to</label>
+            <br />
+            <input type="text" id="assign-to" value="Everyone" />
+            <br />
+            <br />
+
+            <label htmlFor="due-date">Due</label>
+            <br />
+            <input type="date" value="2023-09-18" id="due-date" />
+            <br />
+            <br />
           </td>
         </tr>
-        <td>
-          <label htmlFor="wd-due-date">Due </label>
-        </td>
-        <td>
-          <input type="date" id="wd-due-date"></input>
-        </td>
+
         <tr>
           <td>
-            <label htmlFor="wd-available-from">Available from</label>
+            <label htmlFor="avail-date">Available from</label>
+            <br />
+            <input type="date" value="2023-09-08" id="avail-date" />
+            <br />
+            <br />
           </td>
+
           <td>
-            <input type="date" id="wd-available-from"></input>
-          </td>
-          <td>
-            <label htmlFor="wd-available-until">Untill </label>
-          </td>
-          <td>
-            <input type="date" id="wd-available-until"></input>
+            <label htmlFor="until-date">Until</label>
+            <br />
+            <input type="date" value="2023-09-18" id="until-date" />
+            <br />
+            <br />
           </td>
         </tr>
-        <tr>
-          <td align="right">
-            <div id="wd-name">
+    </table>
+    <hr></hr>
+    
+            <div align-right>
               <button type="reset">Cancel</button>
               <button type="submit">Save</button>
             </div>
-          </td>
-        </tr>
-      </table>
+          
     </div>
   );
 }

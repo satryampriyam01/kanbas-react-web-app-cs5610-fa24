@@ -23,8 +23,6 @@ export default function Kanbas() {
           </td>
         </tr>
       </table>
-
     </div>
   );
 }
-

@@ -27,8 +27,6 @@ export default function Courses() {
           </td>
         </tr>
       </table>
-
     </div>
-
   );
 }

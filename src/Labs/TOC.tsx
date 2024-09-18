@@ -18,6 +18,9 @@ export default function TOC() {
       <li>
         <Link to="/Kanbas">Kanbas</Link>
       </li>
+      <li>
+        <Link to="/SourceCode">Source Code Repository</Link>
+      </li>
     </ul>
   );
 }

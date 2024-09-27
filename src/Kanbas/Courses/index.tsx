@@ -4,7 +4,7 @@ import Modules from "./Modules";
 import Home from "./Home";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
-import { FaAlignJustify } from 'react-icons/fa';
+import { FaAlignJustify } from "react-icons/fa";
 
 export default function Courses() {
   return (

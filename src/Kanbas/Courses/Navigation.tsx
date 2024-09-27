@@ -19,7 +19,8 @@ export default function CoursesNavigation() {
       <Link
         to="/Kanbas/Courses/1234/Piazza"
         id="wd-course-piazza-link"
-        className="list-group-item text-danger border border-0">
+        className="list-group-item text-danger border border-0"
+      >
         Piazza
       </Link>
       <Link

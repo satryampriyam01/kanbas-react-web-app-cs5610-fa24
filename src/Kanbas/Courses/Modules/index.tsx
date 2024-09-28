@@ -49,12 +49,9 @@ export default function Modules() {
           LEARNING OBJECTIVES <LessonControlButtons />
           </li>
         <li className="wd-lesson list-group-item p-3 ps-1"> 
-        <BsGripVertical className="me-2 fs-3" />LESSON 1 <LessonControlButtons />
-         </li>
+        <BsGripVertical className="me-2 fs-3" />LESSON 1 <LessonControlButtons /> </li>
         <li className="wd-lesson list-group-item p-3 ps-1"> 
-        <BsGripVertical className="me-2 fs-3" />LESSON 2
-        <LessonControlButtons />
-         </li>
+        <BsGripVertical className="me-2 fs-3" />LESSON 2 <LessonControlButtons /> </li>
       </ul>
     </li>
   </ul> </div>

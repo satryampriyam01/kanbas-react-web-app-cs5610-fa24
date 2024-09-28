@@ -61,25 +61,25 @@ export default function Assignments() {
               id="wd-assignment-a1"
             >
               <div className="d-flex justify-content-between align-items-center">
-              <div className="d-flex align-items-center ms-3">
-                <BsBook className="text-success me-3 fs-4" />
-                <div>
-                  <a
-                    className="wd-assignment-link h5 mb-1"
-                    href="#/Kanbas/Courses/1234/Assignments/123"
-                  >
-                    A1 - ENV + HTML
-                  </a>
-                  <br />
-                  <small>
-                    Multiple Modules | <b>NOT available until</b> May 6 at
-                    12:00am
-                  </small>
-                  <br />
-                  <small>
-                    <b>Due</b> May 13 at 11:59pm | 100 points
-                  </small>
-                </div>
+                <div className="d-flex align-items-center ms-3">
+                  <BsBook className="text-success me-3 fs-4" />
+                  <div>
+                    <a
+                      className="wd-assignment-link h5 mb-1"
+                      href="#/Kanbas/Courses/1234/Assignments/123"
+                    >
+                      A1 - ENV + HTML
+                    </a>
+                    <br />
+                    <small>
+                      Multiple Modules | <b>NOT available until</b> May 6 at
+                      12:00am
+                    </small>
+                    <br />
+                    <small>
+                      <b>Due</b> May 13 at 11:59pm | 100 points
+                    </small>
+                  </div>
                 </div>
                 <LessonControlButtons />
               </div>

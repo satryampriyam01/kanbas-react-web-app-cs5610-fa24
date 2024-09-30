@@ -94,12 +94,12 @@ export default function Dashboard() {
                   width="100%"
                   height={160}
                 />
-                <div className="card-body">
+                <div className="card-body ">
                   <h5 className="wd-dashboard-course-title card-title">
                     CS1237 Data Science
                   </h5>
                   <p className="wd-dashboard-course-title card-text">
-                    Data Scientist
+                    Data scientist 
                   </p>
                   <button className="btn btn-primary"> Go </button>
                 </div>

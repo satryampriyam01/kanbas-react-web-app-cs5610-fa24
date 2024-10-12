@@ -6,5 +6,5 @@ export default function LessonControlButtons() {
       <GreenCheckmark />
       <IoEllipsisVertical className="fs-4" />
     </div>
-);}
-
+  );
+}

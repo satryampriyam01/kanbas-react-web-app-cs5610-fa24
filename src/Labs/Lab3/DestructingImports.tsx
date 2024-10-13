@@ -27,7 +27,6 @@ export default function DestructingImports() {
   <td>subtract(5, 1) = {subtract(5, 1)}</td>
 </tr>
 
-
         </tbody>
       </table>
       <hr />

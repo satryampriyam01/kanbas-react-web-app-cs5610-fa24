@@ -1,155 +1,124 @@
-import React from "react";
-import { BsPlus, BsSearch, BsGripVertical, BsBook } from "react-icons/bs";
-import LessonControlButtons from "../Modules/LessonControlButtons";
+import Button from "react-bootstrap/Button";
+import "./index.css";
+import {
+  FaCheckCircle,
+  FaChevronDown,
+  FaEllipsisV,
+  FaPencilAlt,
+  FaPlus,
+  FaPlusCircle,
+} from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
+import { assignments } from "../../Database";
 
-export default function Assignments() {
+function Assignments() {
+   const { cid } = useParams();
+//    assignments.forEach(assignment => {
+//     console.log(assignment.course);
+//     console.log(cid);
+// })
+  const assignmentList = assignments.filter(
+    (assignment) => assignment.course === cid
+  );
   return (
-    <div id="wd-assignments" className="container mt-5">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <div className="input-group w-50">
-          <span className="input-group-text" id="wd-search-assignment-icon">
-            <BsSearch />
-          </span>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search for Assignments"
-            aria-label="Search"
-            id="wd-search-assignment"
-          />
-        </div>
-
-        {/* Group and Assignment buttons */}
-        <div>
-          <button className="btn btn-light me-2" id="wd-add-assignment-group">
-            <BsPlus /> Group
-          </button>
-          <button className="btn btn-danger" id="wd-add-assignment">
-            <BsPlus /> Assignment
-          </button>
-        </div>
-      </div>
-
-      <ul id="wd-assignment-list" className="list-group rounded-0">
-        <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
-          <div className="wd-title p-3 ps-2 bg-secondary d-flex justify-content-between align-items-center">
-            {/* Title Section */}
-            <div className="d-flex align-items-center">
-              <BsGripVertical className="me-2 fs-3" />
-              <h3 id="wd-assignments-title" className="mb-0 text-white">
-                <small>ASSIGNMENTS</small>
-              </h3>
-            </div>
-
-            {/* Right-side Section with 40%, Plus Icon, and Lesson Control */}
-            <div className="d-flex align-items-center">
-              <span className="badge bg-light text-dark rounded-3 me-2">
-                40% of Total
-              </span>
-              <BsPlus className="me-3" />
-              <LessonControlButtons />
-            </div>
+    <div className="col me-2">
+      <div className="row wd-margin-top">
+        <div className="float-end wd-margin-right">
+          <div className="wd-button float-end">
+            <a className="btn btn-secondary btn-sm" href="#" role="button">
+              <FaEllipsisV />
+            </a>
+          </div>
+          <div className="wd-button float-end">
+            <Button variant="danger btn-sm">
+              <FaPlus className="me-1" />
+              Assignment
+            </Button>{" "}
           </div>
 
-          {/* Assignment List */}
-          <ul className="wd-lessons list-group rounded-0 position-relative">
-            <div className="border-start border-3 border-success position-absolute start-0 h-100" />
-
-            {/* Assignment A1 */}
-            <li
-              className="wd-lesson list-group-item p-3 ps-1"
-              id="wd-assignment-a1"
-            >
-              <div className="d-flex justify-content-between align-items-center">
-                <div className="d-flex align-items-center ms-3">
-                  <BsBook className="text-success me-3 fs-4" />
-                  <div>
-                    <a
-                      className="wd-assignment-link h5 mb-1"
-                      href="#/Kanbas/Courses/1234/Assignments/123"
+          <div className="wd-button float-end">
+            <Button variant="secondary btn-sm">
+              <FaPlus className="me-1" />
+              Group
+            </Button>{" "}
+          </div>
+          <div className="float-start w-25">
+            <input
+              className="form-control"
+              id="input1"
+              placeholder="Search for Assignment"
+            />
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div className="wd-assignments-list">
+        <ul
+          className="list-group wd-margin-left"
+          style={{ borderRadius: "0%" }}
+        >
+          <li className="list-group-item list-group-item-secondary">
+            <div>
+              <FaEllipsisV className="me-2" />
+              <b>Assignments</b>
+              <span className="float-end">
+                <label
+                  className="form-label pe-2 ps-2 me-3"
+                  style={{
+                    borderRadius: "50px",
+                    borderWidth: "1px",
+                    borderStyle: "solid",
+                  }}
+                >
+                  40% of Total
+                </label>
+                <FaCheckCircle className="text-success" />
+                <FaPlusCircle className="ms-2" />
+                <FaEllipsisV className="ms-2" />
+              </span>
+            </div>
+          </li>
+          <ul className="list-group" style={{ borderRadius: "0%" }}>
+            {/* {assignmentList.length} */}
+            {assignmentList.map((assignment) => (
+              <li className="list-group-item">
+                <div className="row">
+                  <div
+                    className="col-auto"
+                    style={{ margin: "auto", display: "flex" }}
+                  >
+                    <FaEllipsisV
+                      style={{ verticalAlign: "middle", marginRight: "10px" }}
+                    />
+                    <FaPencilAlt />
+                  </div>
+                  <div className="col wd-fg-color-gray ps-0 ms-2">
+                    <Link
+                      style={{ color: "green", textDecoration: "none" }}
+                      className="fw-bold ps-0"
+                      to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
                     >
-                      A1 - ENV + HTML
-                    </a>
+                      {assignment.title}
+                    </Link>
                     <br />
-                    <small>
-                      Multiple Modules | <b>NOT available until</b> May 6 at
-                      12:00am
-                    </small>
+                    {"Multiple Modules"} | {"Not available until May 6 at 12:00 am"}
                     <br />
-                    <small>
-                      <b>Due</b> May 13 at 11:59pm | 100 points
-                    </small>
+                    <b>Due</b> {"May 20 at 11:59pm"} | 100 points
+                  </div>
+                  <div
+                    className="col-auto"
+                    style={{ margin: "auto", display: "flex" }}
+                  >
+                    <FaCheckCircle style={{ color: "green" }} />
+                    <FaEllipsisV style={{ verticalAlign: "middle" }} />
                   </div>
                 </div>
-                <LessonControlButtons />
-              </div>
-            </li>
-
-            {/* Assignment A2 */}
-            <li
-              className="wd-lesson list-group-item p-3 ps-1 mt-3"
-              id="wd-assignment-a2"
-            >
-              <div className="d-flex justify-content-between align-items-center">
-                <div className="d-flex align-items-center ms-3">
-                  <BsBook className="text-success me-3 fs-4" />
-                  <div>
-                    <a
-                      className="wd-assignment-link h5 mb-1"
-                      href="#/Kanbas/Courses/1234/Assignments/124"
-                    >
-                      A2 - CSS + BOOTSTRAP
-                    </a>
-                    <br />
-                    <small>
-                      Multiple Modules | <b>NOT available until</b> May 13 at
-                      12:00am
-                    </small>
-                    <br />
-                    <small>
-                      <b>Due</b> May 20 at 11:59pm | 100 points
-                    </small>
-                  </div>
-                </div>
-                <LessonControlButtons />
-              </div>
-            </li>
-
-            {/* Assignment A3 */}
-            <li
-              className="wd-lesson list-group-item p-3 ps-1 mt-3"
-              id="wd-assignment-a3"
-            >
-              <div className="d-flex justify-content-between align-items-center">
-                {/* Assignment details on the left */}
-                <div className="d-flex align-items-center ms-3">
-                  <BsBook className="text-success me-3 fs-4" />
-                  <div>
-                    <a
-                      className="wd-assignment-link h5 mb-1"
-                      href="#/Kanbas/Courses/1234/Assignments/125"
-                    >
-                      A3 - JAVASCRIPT + REACT
-                    </a>
-                    <br />
-                    <small>
-                      Multiple Modules | <b>NOT available until</b> May 20 at
-                      12:00am
-                    </small>
-                    <br />
-                    <small>
-                      <b>Due</b> May 27 at 11:59pm | 100 points
-                    </small>
-                  </div>
-                </div>
-
-                {/* LessonControlButtons aligned on the right */}
-                <LessonControlButtons />
-              </div>
-            </li>
+              </li>
+            ))}
           </ul>
-        </li>
-      </ul>
+        </ul>
+      </div>
     </div>
   );
 }
+export default Assignments;

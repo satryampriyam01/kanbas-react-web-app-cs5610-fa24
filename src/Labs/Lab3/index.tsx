@@ -10,7 +10,6 @@ import Destructing from "./Destructing";
 import DestructingImports from "./DestructingImports";
 import FilterFunction from "./FilterFunction";
 import FindFunction from "./FindFunction";
-import FindIndex from "./FindIndex";
 import ForLoops from "./ForLoops";
 import FunctionDestructing from "./FunctionDestructing";
 import House from "./House";
@@ -31,52 +30,53 @@ import VariablesAndConstants from "./VariablesAndConstants";
 import VariableTypes from "./VariableTypes";
 import Highlight from "./Highlight";
 import PathParameters from "./PathParameters";
+import FindIndex from "./FindIndex";
+import AddPathParameters from "./AddPathParameters";
 
 export default function Lab3() {
   console.log("Hello World");
   return (
     <div>
       <h2>Lab 3</h2>
-      <VariablesAndConstants/>
-      <VariableTypes/>
-      <BooleanVariables/>
-      <IfElse/>
-      <Ternanryoperator/>
-      <ConditionalOutputIfElse/>
-      <ConditionalOutputInline/>
-      <LegacyFunctions/>
-      <ArrowFunctions/>
-      <ImpliedReturn/>
-      <TemplateLiterals/>
-      <SimpleArrays/>
-      <ArrayIndexAndLength/>
-      <AddingAndRemovingToFromArrays/>
-      <ForLoops/>
-      <MapFunction/>
-      <FindFunction/>
-      <House/>
-      <TodoList/>
-      <Spreading/>
-      <Destructing/>
-      <FindFunction/>
-      <FindIndex/>
+      <VariablesAndConstants />
+      <VariableTypes />
+      <BooleanVariables />
+      <IfElse />
+      <Ternanryoperator />
+      <ConditionalOutputIfElse />
+      <ConditionalOutputInline />
+      <LegacyFunctions />
+      <ArrowFunctions />
+      <ImpliedReturn />
+      <TemplateLiterals />
+      <SimpleArrays />
+      <ArrayIndexAndLength />
+      <AddingAndRemovingToFromArrays />
+      <ForLoops />
+      <MapFunction />
+      <FindFunction />
+      <FindIndex />
       <FilterFunction/>
-      <JsonStringify/>
-      <DestructingImports/>
-      <FunctionDestructing/>
-      <DestructingImports/>
-      <Classes/>
-      <Styles/>
+      <JsonStringify />
+      <House />
+      <TodoList />
+      <Spreading />
+      <Destructing />
+      <FunctionDestructing />
+      <DestructingImports />
+      <Classes />
+      <Styles />
       <Add a={3} b={4} />
       <h4>Square of 4</h4>
       <Square>4</Square>
       <hr />
       <Highlight>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipitratione eaque illo minus cum, saepe totam
-        vel nihil repellat nemo explicabo excepturi consectetur. Modi omnis minus sequi maiores, provident voluptates.
-     </Highlight>
-     <PathParameters/>
-
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipitratione
+        eaque illo minus cum, saepe totam vel nihil repellat nemo explicabo
+        excepturi consectetur. Modi omnis minus sequi maiores, provident
+        voluptates.
+      </Highlight>
+      <PathParameters />
     </div>
   );
 }

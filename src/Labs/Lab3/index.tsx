@@ -53,6 +53,7 @@ export default function Lab3() {
       <AddingAndRemovingToFromArrays/>
       <ForLoops/>
       <MapFunction/>
+      <FindFunction/>
       <House/>
       <TodoList/>
       <Spreading/>

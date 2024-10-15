@@ -16,7 +16,7 @@ function AssignmentEditor() {
       <input value={assignment?.title} className="form-control mb-2" />
       <br />
       <textarea className="form-control" cols={50} rows={5}>
-        Hello
+        {assignment?.description}
       </textarea>
       <br />
       <div className="row g-0 text-end" style={{ paddingBottom: "15px" }}>
@@ -32,7 +32,7 @@ function AssignmentEditor() {
             type="number"
             placeholder="Points"
             aria-label="default input example"
-            value="100"
+            value={assignment?.points}
           />
         </div>
       </div>

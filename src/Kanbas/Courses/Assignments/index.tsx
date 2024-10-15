@@ -13,10 +13,6 @@ import { assignments } from "../../Database";
 
 function Assignments() {
    const { cid } = useParams();
-//    assignments.forEach(assignment => {
-//     console.log(assignment.course);
-//     console.log(cid);
-// })
   const assignmentList = assignments.filter(
     (assignment) => assignment.course === cid
   );
@@ -101,9 +97,9 @@ function Assignments() {
                       {assignment.title}
                     </Link>
                     <br />
-                    {"Multiple Modules"} | {"Not available until May 6 at 12:00 am"}
+                    {assignment.description} | {assignment.availableDateTime}
                     <br />
-                    <b>Due</b> {"May 20 at 11:59pm"} | 100 points
+                    <b>Due</b> {assignment.dueDateTime} | {assignment.points}
                   </div>
                   <div
                     className="col-auto"

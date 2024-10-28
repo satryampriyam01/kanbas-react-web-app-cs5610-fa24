@@ -1,0 +1,199 @@
+.wd-modules,
+.wd-modules * {
+  border-radius: 0%;
+  border: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.wd-modules {
+  margin: 5px;
+  
+  border-radius: 0%;
+}
+
+.wd-modules > li {
+  background-color: lightgray;
+  border: 1px solid gray !important;
+  border-left: none !important;
+  padding: 1px;
+  border-radius: 0%;
+}
+
+.wd-modules > li > div {
+  padding: 6px;
+  border-left: 1px solid gray !important;
+}
+
+.wd-modules > li > ul > li {
+  padding: 5px;
+  border-top: 1px solid gray !important;
+  border-left: 2px solid green;
+}
+
+.wd-modules > li {
+  margin-bottom: 20px;
+}
+
+.wd-modules > li > ul > li > span {
+  margin-left: 30px;
+}
+
+.wd-margin-top-10 {
+  margin-top: 10px;
+}
+
+.wd-course-status {
+  margin: 5px;
+  list-style-type: none;
+}
+
+.wd-course-status > li {
+  background-color: lightgray;
+  border: 1px solid gray;
+  margin-bottom: 5px;
+}
+
+.wd-course-status > li > a {
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  color: inherit;
+}
+
+.wd-course-status > li > a {
+    padding-left: 15px;
+}
+
+.wd-light-green-color{
+    background-color: #9ec199;
+    color: #ffffff
+}
+
+
+
+.btn-green{
+  background-color:green;
+  color: white;
+}
+
+.publish-icon{
+  color:white;
+}
+
+.wd-coming-up{
+  list-style: none;
+}
+
+.wd-coming-up > li > a{
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  color: inherit;
+  padding-left: 15px;
+}
+
+.wd-coming-up-color-red{
+  color: red;
+}
+
+.calender-color{
+  color:black;
+}
+
+.wd-coming a {
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  color: red;
+  padding-left: 15px;
+}
+
+.wd-coming{
+  margin-top: 30px;
+}
+
+.wd-course-module-color{
+  background-color:red;
+  color:white;
+}
+
+.wd-main-class{
+  width: 100%;
+}
+
+.wd-top-bar{
+  margin-bottom: 10;
+}
+
+.wd-top-bar> span > a {
+  text-decoration: none;
+  width: 100%;
+  color: inherit;
+}
+
+.wd-main-class > div > span > a.wd-module-name{
+  color:red;
+}
+
+.wd-to-do{
+  margin-top: 30px;
+}
+
+.wd-fg-color-gray{
+  color:gray
+}
+
+.wd-button{
+  color: black;
+  background-color: rgb(223, 222, 222);
+}
+
+.wd-button a:hover{
+  color:gray;
+}
+
+.wd-top-bar > a {
+  text-decoration: none;
+  width: 100%;
+  color: #ff7070;
+}
+
+.wd-top-bar-text > a{
+  text-decoration: none;
+  color: black;
+}
+
+.wd-kanbas-nav-side-bar{
+  list-style: none;
+  padding: 0px;
+  width: 300px;
+  margin: 0px;
+  border-radius: 0%;
+}
+.wd-kanbas-nav-side-bar li{
+  padding: 10px;
+  font-size: 0.8em;
+  /* text-align: center; */
+  margin-bottom: 5px;
+  margin-left: 40px;
+}
+
+.wd-kanbas-nav-side-bar li a{
+  color: red;
+  text-decoration: none;
+  /* margin-left: 5px; */
+  font-size: 1.5em;
+
+}
+.wd-kanbas-nav-side-bar li i{
+  color: red;
+  font-size: 1.3em;
+  margin-bottom: 5px;
+  text-align: right   ;
+  padding-right: 25;
+}
+
+.wd-text-center{
+  text-align: center;
+}

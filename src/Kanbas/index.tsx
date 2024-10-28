@@ -7,8 +7,10 @@ import Courses from "./Courses";
 import * as db from "./Database";
 import { useState } from "react";
 
-
+import store from "./store";
+import { Provider } from "react-redux";
 export default function Kanbas() {
+
   const [courses, setCourses] = useState<any[]>(db.courses);
   const [course, setCourse] = useState<any>({
     _id: "1234", name: "New Course", number: "New Number",
@@ -33,6 +35,8 @@ export default function Kanbas() {
   };
 
   return (
+    <Provider store={store}>
+
     <div id="wd-kanbas">
       <KanbasNavigation />
 
@@ -56,5 +60,6 @@ export default function Kanbas() {
         </Routes>
       </div>
     </div>
+    </Provider>
   );
 }

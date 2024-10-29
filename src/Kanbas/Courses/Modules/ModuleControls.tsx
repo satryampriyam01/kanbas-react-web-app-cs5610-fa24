@@ -2,7 +2,7 @@ import { FaPlus } from "react-icons/fa6";
 import GreenCheckmark from "./GreenCheckmark";
 import GreyBanMark from "./GreyBanMark";
 import ModuleEditor from "./ModuleEditor";
-
+import { FaTrash } from "react-icons/fa";
 export default function ModulesControls({
   moduleName,
   setModuleName,

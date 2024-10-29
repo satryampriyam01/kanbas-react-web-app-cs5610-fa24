@@ -2,32 +2,34 @@ import LessonControlButtons from "./LessonControlButtons";
 import ModulesControls from "./ModuleControls";
 import { BsGripVertical } from "react-icons/bs";
 import { useParams } from "react-router";
-import * as db from "../../Database";
-import ModuleControls from "./ModuleControls";
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import ModuleControlButtons from "./ModuleControleButtons";
 import { addModule, editModule, updateModule, deleteModule } from "./reducer";
-import { useSelector, useDispatch } from "react-redux";
 
 export default function Modules() {
   const { cid } = useParams();
   const [moduleName, setModuleName] = useState("");
   const { modules } = useSelector((state: any) => state.modulesReducer);
+  const currentUserRole = useSelector((state: any) => state.accountReducer.currentUser?.role);
   const dispatch = useDispatch();
 
   return (
     <div>
-      <ModulesControls
-        moduleName={moduleName}
-        setModuleName={setModuleName}
-        addModule={() => {
-          dispatch(addModule({ name: moduleName, course: cid }));
-          setModuleName("");
-        }}
-      />
+      {currentUserRole === "FACULTY" && (
+        <ModulesControls
+          moduleName={moduleName}
+          setModuleName={setModuleName}
+          addModule={() => {
+            dispatch(addModule({ name: moduleName, course: cid }));
+            setModuleName("");
+          }}
+        />
+      )}
 
       <br />
       <br />
+
       {/* Implement Collapse All button, View Progress button, etc. */}
       <ul className="mt-2 list-group rounded-0 w-100">
         {modules
@@ -35,19 +37,16 @@ export default function Modules() {
           .map((module: any) => (
             <li
               key={module._id}
-              className="wd-module list-group-item p-0
-                   mb-5 fs-5 border-gray"
+              className="wd-module list-group-item p-0 mb-5 fs-5 border-gray"
             >
               <div className="wd-title p-3 ps-2 bg-secondary">
                 <BsGripVertical className="me-2 fs-3" />
                 {!module.editing && module.name}
-                {module.editing && (
+                {module.editing && currentUserRole === "FACULTY" && (
                   <input
                     className="form-control w-50 d-inline-block"
                     onChange={(e) =>
-                      dispatch(
-                        updateModule({ ...module, name: e.target.value })
-                      )
+                      dispatch(updateModule({ ...module, name: e.target.value }))
                     }
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
@@ -58,20 +57,23 @@ export default function Modules() {
                   />
                 )}
 
-                <ModuleControlButtons
-                  moduleId={module._id}
-                  deleteModule={(moduleId) => {
-                    dispatch(deleteModule(moduleId));
-                  }}
-                  editModule={(moduleId) => dispatch(editModule(moduleId))}
-                />
+                {currentUserRole === "FACULTY" && (
+                  <ModuleControlButtons
+                    moduleId={module._id}
+                    deleteModule={(moduleId) => {
+                      dispatch(deleteModule(moduleId));
+                    }}
+                    editModule={(moduleId) => dispatch(editModule(moduleId))}
+                  />
+                )}
               </div>
               <ul className="wd-lessons list-group rounded-0">
                 {module.lessons &&
                   module.lessons.map((lesson: any) => (
                     <li className="wd-lesson list-group-item p-3 ps-1">
                       <BsGripVertical className="me-2 fs-3" />
-                      {lesson.name} <LessonControlButtons />
+                      {lesson.name}
+                      {currentUserRole === "FACULTY" && <LessonControlButtons />}
                     </li>
                   ))}
               </ul>

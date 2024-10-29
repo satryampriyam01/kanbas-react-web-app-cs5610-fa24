@@ -20,11 +20,9 @@ export default function Dashboard({
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { enrollments } = db;
-  console.log(currentUser);
 
-  // Check if the current user has the FACULTY role
   const isFaculty = currentUser && currentUser.role === 'FACULTY';
-
+  console.log("Courses in Dashboard:", courses); 
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1>
@@ -75,13 +73,6 @@ export default function Dashboard({
       <div id="wd-dashboard-courses" className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
           {courses
-            .filter((course) =>
-              enrollments.some(
-                (enrollment) =>
-                  enrollment.user === currentUser._id &&
-                  enrollment.course === course._id
-              )
-            )
             .map((course) => (
               <div
                 className="wd-dashboard-course col"

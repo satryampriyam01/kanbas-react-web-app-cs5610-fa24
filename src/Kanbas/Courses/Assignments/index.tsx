@@ -81,7 +81,7 @@ function Assignments() {
                                         <FaPencilAlt />
                                     </div>
                                     <div className='col wd-fg-color-gray ps-0 ms-2'>
-                                        <Link style={{ color: 'green', textDecoration: 'none' }} className="fw-bold ps-0" to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}>
+                                        <Link style={{ color: 'green', textDecoration: 'none', pointerEvents:currentUserRole==='FACULTY'?'auto':'none'}} className="fw-bold ps-0"   to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`} >
                                             {assignment.title}
                                         </Link>
                                         <br />

@@ -6,11 +6,12 @@ import "./styles.css";
 import Courses from "./Courses";
 import * as db from "./Database";
 import { useState } from "react";
-
-import store from "./store";
-import { Provider } from "react-redux";
+import { useDispatch } from "react-redux"; // Import useDispatch
+import { enrollInCourse } from './Courses/EnrollmentReducer'; // Adjust the import path
 import ProtectedRoute from "./Account/ProtectedRoute";
+
 export default function Kanbas() {
+  const dispatch = useDispatch(); // Initialize dispatch
   const [courses, setCourses] = useState<any[]>(db.courses);
   const [course, setCourse] = useState<any>({
     _id: "1234",
@@ -20,14 +21,29 @@ export default function Kanbas() {
     endDate: "2023-12-15",
     description: "New Description",
   });
+  
+  const currentUser = { _id: "currentUserId" }; // Replace this with your actual logic to get the current user ID
+
   const addNewCourse = () => {
     const newCourse = { ...course, _id: new Date().getTime().toString() };
-    console.log("Updated courses:", newCourse);
-    setCourses((prevCourses) => [...prevCourses, newCourse]);
+    console.log("New Course Added:", newCourse);
+    
+    setCourses((prevCourses) => {
+      const updatedCourses = [...prevCourses, newCourse];
+      console.log("Updated Courses:", updatedCourses); // Log updated courses
+      return updatedCourses;
+    });
+
+    // Dispatch the enrollInCourse action for the current user
+    if (currentUser) {
+      dispatch(enrollInCourse({ userId: currentUser._id, courseId: newCourse._id }));
+    }
   };
+
   const deleteCourse = (courseId: any) => {
     setCourses(courses.filter((course) => course._id !== courseId));
   };
+
   const updateCourse = () => {
     setCourses(
       courses.map((c) => {
@@ -41,43 +57,40 @@ export default function Kanbas() {
   };
 
   return (
-    <Provider store={store}>
-      <div id="wd-kanbas">
-        <KanbasNavigation />
+    <div id="wd-kanbas">
+      <KanbasNavigation />
 
-        <div className="wd-main-content-offset p-3">
-          <Routes>
-            <Route path="/" element={<Navigate to="/Kanbas/Account" />} />
-            <Route path="/Account/*" element={<Account />} />
-            <Route
-              path="/Dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard
-                    courses={courses}
-                    course={course}
-                    setCourse={setCourse}
-                    addNewCourse={addNewCourse}
-                    deleteCourse={deleteCourse}
-                    updateCourse={updateCourse}
-                  />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="Courses/:cid/*"
-              element={
-                <ProtectedRoute>
-                  <Courses courses={courses} />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route path="/Calendar" element={<h1>Calendar</h1>} />
-            <Route path="/Inbox" element={<h1>Inbox</h1>} />
-          </Routes>
-        </div>
+      <div className="wd-main-content-offset p-3">
+        <Routes>
+          <Route path="/" element={<Navigate to="/Kanbas/Account" />} />
+          <Route path="/Account/*" element={<Account />} />
+          <Route
+            path="/Dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard
+                  courses={courses}
+                  course={course}
+                  setCourse={setCourse}
+                  addNewCourse={addNewCourse}
+                  deleteCourse={deleteCourse}
+                  updateCourse={updateCourse}
+                />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="Courses/:cid/*"
+            element={
+              <ProtectedRoute>
+                <Courses courses={courses} />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/Calendar" element={<h1>Calendar</h1>} />
+          <Route path="/Inbox" element={<h1>Inbox</h1>} />
+        </Routes>
       </div>
-    </Provider>
+    </div>
   );
 }

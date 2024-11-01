@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Enrollment } from "./Courses/types";
 import { enrollInCourse, unenrollFromCourse, toggleShowAllCourses } from "./Courses/EnrollmentReducer";
+import store from "./store";
 
 export default function Dashboard({
   courses,
@@ -26,6 +27,7 @@ export default function Dashboard({
 
   const isFaculty = currentUser && currentUser.role === 'FACULTY';
   const isStudent = currentUser && currentUser.role === 'STUDENT';
+  console.log('Current Enrollments:', store.getState().enrollmentReducer.enrollments);
 
   // Filter enrolled courses for current user
   const enrolledCourses = courses.filter((course) =>

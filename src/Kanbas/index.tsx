@@ -6,7 +6,7 @@ import "./styles.css";
 import Courses from "./Courses";
 import * as db from "./Database";
 import { useState } from "react";
-import { useDispatch } from "react-redux"; // Import useDispatch
+import { useDispatch, useSelector } from "react-redux"; // Import useDispatch
 import { enrollInCourse } from './Courses/EnrollmentReducer'; // Adjust the import path
 import ProtectedRoute from "./Account/ProtectedRoute";
 
@@ -22,7 +22,8 @@ export default function Kanbas() {
     description: "New Description",
   });
   
-  const currentUser = { _id: "currentUserId" }; // Replace this with your actual logic to get the current user ID
+  const { currentUser } = useSelector((state: any) => state.accountReducer)
+  // Replace this with your actual logic to get the current user ID
 
   const addNewCourse = () => {
     const newCourse = { ...course, _id: new Date().getTime().toString() };

@@ -23,7 +23,6 @@ export default function Kanbas() {
   });
   
   const { currentUser } = useSelector((state: any) => state.accountReducer)
-  // Replace this with your actual logic to get the current user ID
 
   const addNewCourse = () => {
     const newCourse = { ...course, _id: new Date().getTime().toString() };

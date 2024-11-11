@@ -1,4 +1,7 @@
+
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
+console.log(REMOTE_SERVER)
+
 export default function EnvironmentVariables() {
   return (
     <div id="wd-environment-variables">

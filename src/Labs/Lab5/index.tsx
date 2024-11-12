@@ -1,8 +1,11 @@
+import { Http2ServerResponse } from "http2";
 import EnvironmentVariables from "./EnvironmentVariables";
 import PathParameters from "./PathParameters";
 import QueryParameters from "./QueryParameters";
 import WorkingWithArrays from "./WorkingWithArrays";
 import WorkingWithObjects from "./WorkingWithObjects";
+import HttpClient from "./HttpClient";
+import WorkingWithObjectsAsynchronously from "./WorkingWithObjectsAsynchronously";
 const REMOTE_SERVER=process.env.REACT_APP_REMOTE_SERVER;
 
 export default function Lab5() {
@@ -19,6 +22,8 @@ export default function Lab5() {
           <QueryParameters/>
           <WorkingWithObjects/>
           <WorkingWithArrays/>
+          <HttpClient/>
+          <WorkingWithObjectsAsynchronously/>
         </div><hr/>
       </div>
     );

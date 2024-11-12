@@ -8,6 +8,8 @@ export default function Profile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+
+  
   const updateProfile = async () => {
     const updatedProfile = await client.updateUser(profile);
     dispatch(setCurrentUser(updatedProfile));
@@ -17,10 +19,12 @@ export default function Profile() {
     if (!currentUser) return navigate("/Kanbas/Account/Signin");
     setProfile(currentUser);
   };
-  const signout = () => {
+  const signout = async () => {
+    await client.signout();
     dispatch(setCurrentUser(null));
     navigate("/Kanbas/Account/Signin");
   };
+
   useEffect(() => {
     fetchProfile();
   }, []);

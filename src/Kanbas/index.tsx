@@ -9,8 +9,10 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux"; // Import useDispatch
 import { enrollInCourse } from './Courses/EnrollmentReducer'; // Adjust the import path
 import ProtectedRoute from "./Account/ProtectedRoute";
+import Session from "./Account/Session";
 
 export default function Kanbas() {
+  
   const dispatch = useDispatch(); // Initialize dispatch
   const [courses, setCourses] = useState<any[]>(db.courses);
   const [course, setCourse] = useState<any>({
@@ -57,6 +59,7 @@ export default function Kanbas() {
   };
 
   return (
+    <Session>
     <div id="wd-kanbas">
       <KanbasNavigation />
 
@@ -92,5 +95,7 @@ export default function Kanbas() {
         </Routes>
       </div>
     </div>
+
+    </Session>
   );
 }

@@ -30,11 +30,7 @@ export default function Dashboard({
   console.log('Current Enrollments:', store.getState().enrollmentReducer.enrollments);
 
   // Filter enrolled courses for current user
-  const enrolledCourses = courses.filter((course) =>
-    enrollments.some((enrollment: Enrollment) =>
-      enrollment.user === currentUser._id && enrollment.course === course._id
-    )
-  );
+  const enrolledCourses = courses
 
   // Toggle between all courses and enrolled courses
   const displayedCourses = showAllCourses ? courses : enrolledCourses;

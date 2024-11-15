@@ -19,7 +19,8 @@ export default function Modules() {
   const { cid } = useParams();
   const [moduleName, setModuleName] = useState("");
   const { modules } = useSelector((state: any) => state.modulesReducer);
-
+  const currentUserRole = useSelector((state: any) => state.accountReducer.currentUser?.role);
+  
   const dispatch = useDispatch();
 
   const fetchModules = async () => {
@@ -50,11 +51,15 @@ export default function Modules() {
 
   return (
     <div>
-      <ModulesControls
-        setModuleName={setModuleName}
-        moduleName={moduleName}
-        addModule={createModuleForCourse}
-      />
+      {
+      currentUserRole === "FACULTY" && (
+        <ModulesControls
+          setModuleName={setModuleName}
+          moduleName={moduleName}
+          addModule={createModuleForCourse}
+        />
+      )
+      }
       <br />
       <br />
       <br />
@@ -82,11 +87,11 @@ export default function Modules() {
                   defaultValue={module.name}
                 />
               )}
-              <ModuleControlButtons
+              {currentUserRole==="FACULTY"&& (<ModuleControlButtons
                 moduleId={module._id}
                 deleteModule={removeModule}
                 editModule={(moduleId: any) => dispatch(editModule(moduleId))}
-              />
+              />)}
             </div>
             {module.lessons && (
               <ul className="wd-lessons list-group rounded-0">

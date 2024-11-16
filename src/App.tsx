@@ -4,8 +4,10 @@ import Labs from "./Labs";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import Kanbas from "./Kanbas";
 import SourceCode from "./SourceCode";
+import axios from "axios";
 
 function App() {
+  axios.defaults.withCredentials=true;
   return (
     <HashRouter>
       <div>

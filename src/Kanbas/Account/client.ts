@@ -10,6 +10,12 @@ export const signin = async (credentials: any) => {
   );
   return response.data;
 };
+
+export const findAllUsers = async () => {
+  const response = await axiosWithCredentials.get(USERS_API);
+  return response.data;
+};
+
 export const signup = async (user: any) => {
   const response = await axiosWithCredentials.post(`${USERS_API}/signup`, user);
   return response.data;
@@ -60,3 +66,11 @@ export const unenrollCourse = async (courseId: any) => {
   );
   return data;
 };
+
+
+export const findUsersByRole = async (role: string) => {
+  const response = await
+    axios.get(`${USERS_API}?role=${role}`);
+  return response.data;
+};
+

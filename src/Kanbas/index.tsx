@@ -11,6 +11,7 @@ import ProtectedRoute from "./Account/ProtectedRoute";
 import Session from "./Account/Session";
 import * as courseClient from "./Courses/client";
 
+
 export default function Kanbas() {
   const [courses, setCourses] = useState<any[]>([]);
 
@@ -19,7 +20,7 @@ export default function Kanbas() {
   const fetchCourses = async () => {
     let courses = [];
     try {
-      courses = await userClient.findMyCourses();
+      courses = await courseClient.fetchAllCourses();
     } catch (error) {
       console.error(error);
     }

@@ -6,10 +6,10 @@ const axiosWithCredentials = axios.create({ withCredentials: true });
 export const fetchAllCourses = async () => {
   const { data } = await axiosWithCredentials.get(COURSES_API);
   return data;
- };
- 
+};
+
 export const deleteCourse = async (id: string) => {
-  const { data } = await axios.delete(`${COURSES_API}/${id}`);
+  const { data } = await axiosWithCredentials.delete(`${COURSES_API}/${id}`)
   return data;
 };
 export const updateCourse = async (course: any) => {
@@ -41,3 +41,9 @@ export const createAssignmentForCourse = async (
   );
   return response.data;
 };
+
+export const createCourse = async (course: any) => {
+  const { data } = await axiosWithCredentials.post(COURSES_API, course);
+  return data;
+ };
+ 

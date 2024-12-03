@@ -9,7 +9,7 @@ export const fetchAllCourses = async () => {
 };
 
 export const deleteCourse = async (id: string) => {
-  const { data } = await axiosWithCredentials.delete(`${COURSES_API}/${id}`)
+  const { data } = await axiosWithCredentials.delete(`${COURSES_API}/${id}`);
   return data;
 };
 export const updateCourse = async (course: any) => {
@@ -21,12 +21,13 @@ export const findModulesForCourse = async (courseId: string) => {
   return response.data;
 };
 export const createModuleForCourse = async (courseId: string, module: any) => {
-  const response = await axios.post(
+  const response = await axiosWithCredentials.post(
     `${COURSES_API}/${courseId}/modules`,
     module
   );
   return response.data;
 };
+
 export const findAssignmentsForCourse = async (courseId: string) => {
   const response = await axios.get(`${COURSES_API}/${courseId}/assignments`);
   return response.data;
@@ -45,5 +46,4 @@ export const createAssignmentForCourse = async (
 export const createCourse = async (course: any) => {
   const { data } = await axiosWithCredentials.post(COURSES_API, course);
   return data;
- };
- 
+};

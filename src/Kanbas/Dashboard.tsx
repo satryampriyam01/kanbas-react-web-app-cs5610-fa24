@@ -33,7 +33,7 @@ export default function Dashboard({
   const [displayCourses, setDisplayCourses] = useState<any[]>([]);
 
   const fetchDisplayCourses = async () => {
-    if (currentUser.role === "FACULTY" || isEnrollmentMode) {
+    if (isEnrollmentMode) {
       setDisplayCourses(await courseClient.fetchAllCourses());
     } else {
       setDisplayCourses(courses);
@@ -42,12 +42,13 @@ export default function Dashboard({
 
   useEffect(() => {
     fetchDisplayCourses();
-  }, [courses, isEnrollmentMode]);
+  }, [courses, isEnrollmentMode, currentUser]);
 
   const enrollCourse = async (courseId: any) => {
     const enrollment = await userClient.enrollCourse(courseId);
     dispatch(addEnrollment(enrollment));
   };
+
   const unenrollCourse = async (courseId: any) => {
     await userClient.unenrollCourse(courseId);
     dispatch(deleteEnrollment({ user: currentUser._id, course: courseId }));
@@ -55,7 +56,8 @@ export default function Dashboard({
 
   return (
     <div id="wd-dashboard">
-      <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
+      <h1 id="wd-dashboard-title">Dashboard</h1>
+      <hr />
       <button
         onClick={() => setEnrolling(!enrolling)}
         className="float-end btn btn-primary"
@@ -71,7 +73,6 @@ export default function Dashboard({
               id="wd-add-new-course-click"
               onClick={addNewCourse}
             >
-              {" "}
               Add
             </button>
             <button
@@ -109,7 +110,7 @@ export default function Dashboard({
       )}
       <h2 id="wd-dashboard-published">
         Published Courses ({displayCourses.length})
-      </h2>{" "}
+      </h2>
       <hr />
       <div id="wd-dashboard-courses" className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
@@ -144,15 +145,15 @@ export default function Dashboard({
                           {course.enrolled ? "Unenroll" : "Enroll"}
                         </button>
                       )}
-                      {course.name}{" "}
+                      {course.name}
                     </h5>
                     <p
                       className="wd-dashboard-course-title card-text overflow-y-hidden"
                       style={{ maxHeight: 100 }}
                     >
-                      {course.description}{" "}
+                      {course.description}
                     </p>
-                    <button className="btn btn-primary"> Go </button>
+                    <button className="btn btn-primary">Go</button>
                     {currentUser.role === "FACULTY" && (
                       <>
                         <button

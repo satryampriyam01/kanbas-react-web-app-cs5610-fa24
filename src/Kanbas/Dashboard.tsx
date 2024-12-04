@@ -36,7 +36,11 @@ export default function Dashboard({
     if (isEnrollmentMode) {
       setDisplayCourses(await courseClient.fetchAllCourses());
     } else {
+      const validCourses = courses.filter(course => course != null);
+     // validCourses.forEach(course => console.log(course));
       setDisplayCourses(courses);
+      
+      console.log('END');
     }
   };
 
@@ -112,15 +116,17 @@ export default function Dashboard({
         Published Courses ({displayCourses.length})
       </h2>
       <hr />
+      
       <div id="wd-dashboard-courses" className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
-          {displayCourses.map((course) => (
+          {displayCourses.filter(course=>course!=null).map((course) => (
             <div className="wd-dashboard-course col" style={{ width: "300px" }}>
               <div className="card rounded-3 overflow-hidden">
                 <Link
                   to={`/Kanbas/Courses/${course._id}/Home`}
                   className="wd-dashboard-course-link text-decoration-none text-dark"
                 >
+                 
                   <img
                     src={`/images/${course._id}.jpg`}
                     width="100%"

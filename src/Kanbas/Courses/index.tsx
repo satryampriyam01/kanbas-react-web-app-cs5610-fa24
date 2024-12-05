@@ -13,7 +13,8 @@ export default function Courses({ courses }: { courses: any[]; }) {
   const links = ["Home", "Modules", "Piazza", "Zoom", "Assignments", "Quizzes", "Grades", "People"];
   const { cid } = useParams();
   const { pathname } = useLocation();
-  const course = courses.find((course) => course._id === cid);
+  //const course = courses.find((course) => course._id === cid);
+  const course = courses.filter(course => course != null).find(course => course._id === cid);
   return (
     <div id="wd-course">
       <h2 className="text-danger">

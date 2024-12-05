@@ -38,17 +38,32 @@ export default function Kanbas() {
 
   const deleteCourse = async (courseId: string) => {
     const status = await courseClient.deleteCourse(courseId);
-    setCourses(courses.filter((course) => course._id !== courseId));
+    setCourses(
+      courses
+        .filter(course => course != null)
+        .filter(course => course._id !== courseId)
+    );
   };
  
 
 
   const updateCourse = async () => {
     await courseClient.updateCourse(course);
-    setCourses(courses.map((c) => {
-        if (c._id === course._id) { return course; }
-        else { return c; }
-    })
+    setCourses(
+      courses
+        .filter(c => c != null)
+        .map((c) => {
+          if (c._id === course._id) {
+            return course;
+          } else {
+            return c;
+          }
+        })
+    // );
+    // setCourses(courses.map((c) => {
+    //     if (c._id === course._id) { return course; }
+    //     else { return c; }
+    // })
   );};
 
 

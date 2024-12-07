@@ -58,6 +58,21 @@ export default function Dashboard({
     dispatch(deleteEnrollment({ user: currentUser._id, course: courseId }));
   };
 
+  const filterUniqueCourses = (courses: any[]) => {
+    const seen = new Set();
+    return courses.filter(course => {
+      if (course && !seen.has(course._id)) {
+        seen.add(course._id);
+        return true;
+      }
+      return false;
+    });
+  };
+
+
+   courses = filterUniqueCourses(courses);
+  console.log('Unique Courses:', courses);
+
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1>
@@ -119,6 +134,7 @@ export default function Dashboard({
       
       <div id="wd-dashboard-courses" className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
+
           {displayCourses.filter(course=>course!=null).map((course) => (
             <div className="wd-dashboard-course col" style={{ width: "300px" }}>
               <div className="card rounded-3 overflow-hidden">

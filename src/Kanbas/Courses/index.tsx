@@ -7,14 +7,32 @@ import AssignmentEditor from "./Assignments/Editor";
 import { FaAlignJustify } from "react-icons/fa";
 import PeopleTable from "./People/Table";
 
+import Quizzes from "./Quizzes";
+import ProtectedRouteQuizEditor from "./ProtectedRouteQuizEditor";
+import QuizReview from "./Quizzes/QuizReview";
+import QuizDetails from "./Quizzes/QuizDetails";
+import { users } from "../Database";
+import QuizEditor from "./Quizzes/QuizEditor";
+import QuizPreview from "./Quizzes/QuizPreview";
 
-
-export default function Courses({ courses }: { courses: any[]; }) {
-  const links = ["Home", "Modules", "Piazza", "Zoom", "Assignments", "Quizzes", "Grades", "People"];
+export default function Courses({ courses }: { courses: any[] }) {
+  const links = [
+    "Home",
+    "Modules",
+    "Piazza",
+    "Zoom",
+    "Assignments",
+    "Quizzes",
+    "Grades",
+    "People",
+  ];
   const { cid } = useParams();
   const { pathname } = useLocation();
   //const course = courses.find((course) => course._id === cid);
-  const course = courses.filter(course => course != null).find(course => course._id === cid);
+  //console.log(cid);
+  const course = courses
+    .filter((course) => course != null)
+    .find((course) => course._id === cid);
   return (
     <div id="wd-course">
       <h2 className="text-danger">
@@ -35,7 +53,33 @@ export default function Courses({ courses }: { courses: any[]; }) {
             <Route path="Assignments/Editor" element={<AssignmentEditor />} />
             <Route path="Assignments/:aid" element={<AssignmentEditor />} />
             <Route path="People" element={<PeopleTable />} />
-          </Routes>
+
+//quizzes
+<Route path="Quizzes" element={<Quizzes />} />
+                <Route path="Quizzes/:qid" element={<QuizDetails />} />
+                <Route
+                  path="Quizzes/:qid/Edit/*"
+                  element={
+                    <ProtectedRouteQuizEditor>
+                      <QuizEditor />
+                    </ProtectedRouteQuizEditor>
+                  }
+                />
+                <Route
+                  path="Quizzes/:qid/Preview"
+                  element={
+                    <ProtectedRouteQuizEditor>
+                      <QuizPreview />
+                    </ProtectedRouteQuizEditor>
+                  }
+                />
+                <Route path="Quizzes/:qid/Review" element={<QuizReview />} />
+                <Route path="Quizzes/:qid/Attempt" element={<QuizPreview />} />
+                <Route path="Grades" element={<h2>Grades</h2>} />
+                <Route path="People" element={<PeopleTable users={users} />} />
+              </Routes>
+
+ 
         </div>
       </div>
     </div>

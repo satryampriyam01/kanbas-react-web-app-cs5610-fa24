@@ -1,6 +1,9 @@
 import axios from "axios";
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 const COURSES_API = `${REMOTE_SERVER}/api/courses`;
+const QUIZZES_API = `${REMOTE_SERVER}/api/quizzes`;
+
+
 const axiosWithCredentials = axios.create({ withCredentials: true });
 
 export const fetchAllCourses = async () => {
@@ -53,3 +56,85 @@ export const findUsersForCourse = async (courseId: string) => {
   const response = await axiosWithCredentials.get(`${COURSES_API}/${courseId}/users`);
   return response.data;
 };
+
+
+
+
+
+//QUIZZES
+// export const findQuizForCourse = async (courseId: string) => {
+//   const response = await axiosWithCredentials.get(`${COURSES_API}/${courseId}/quizzes`);
+//   return response.data;
+// };
+
+// export const createQuiz = async (
+//   quiz: any
+// ) => {
+//   const response = await axiosWithCredentials.post(
+//     `${QUIZZES_API}`,
+//     quiz
+//   );
+//   return response.data;
+// };
+
+// export const updateQuiz = async (quiz: any) => {
+//   const response = await axiosWithCredentials.put(
+//     `${QUIZZES_API}/${quiz._id}`,
+//     quiz
+//   );
+//   return response.data;
+// };
+
+// export const deleteQuiz = async (quizId: string) => {
+//   const response = await axiosWithCredentials.delete(`${QUIZZES_API}/${quizId}`);
+//   return response.data;
+// };
+
+// export const findQuizById = async (quizId: string | undefined) => {
+//   const response = await axiosWithCredentials.get(`${QUIZZES_API}/${quizId}`);
+//   return response.data;
+// };
+
+
+// Quiz endpoints
+export const findQuizzesForCourse = async (courseId: string) => {
+  const response = await axiosWithCredentials.get(`${COURSES_API}/${courseId}/quizzes`);
+  return response.data;
+};
+
+export const createQuizForCourse = async (courseId: string, quiz: any) => {
+  const response = await axiosWithCredentials.post(
+    `${COURSES_API}/${courseId}/quizzes`,
+    quiz
+  );
+  return response.data;
+};
+
+export const updateQuizForCourse = async (courseId: string, quiz: any) => {
+  const response = await axiosWithCredentials.put(
+    `${COURSES_API}/${courseId}/quizzes/${quiz._id}`,
+    quiz
+  );
+  return response.data;
+};
+
+export const deleteQuiz = async (courseId: string, quizId: string) => {
+  const response = await axiosWithCredentials.delete(
+    `${COURSES_API}/${courseId}/quizzes/${quizId}`
+  );
+  return response.data;
+};
+
+export const publishQuiz = async (courseId: string, quizId: string) => {
+  const response = await axiosWithCredentials.put(
+    `${COURSES_API}/${courseId}/quizzes/${quizId}/publish`
+  );
+  return response.data;
+}
+
+export const unpublishQuiz = async (courseId: string, quizId: string) => {
+  const response = await axiosWithCredentials.put(
+    `${COURSES_API}/${courseId}/quizzes/${quizId}/unpublish`
+  );
+  return response.data;
+}

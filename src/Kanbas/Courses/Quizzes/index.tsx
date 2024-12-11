@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import * as coursesClient from "../client";
 import { deleteQuiz, setQuizzes } from "./reducer";
 import QuizGroupControlButtons from "./QuizGroupControlButtons";
+import * as quizzesClient from "./client";
 
 export default function Quizzes() {
   const { cid } = useParams();
@@ -29,12 +30,26 @@ export default function Quizzes() {
       dispatch(setQuizzes(quizzes));
     }
   };
+
+  const [attempts, setAttempts] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchAttempts = async () => {
+      if (currentUser?._id) {
+        try {
+          const userAttempts = await quizzesClient.getUserAttempts(currentUser._id);
+          setAttempts(userAttempts);
+        } catch (err) {
+          console.error("Error fetching user attempts:", err);
+        }
+      }
+    };
+    fetchAttempts();
+  }, [currentUser]);
+
   useEffect(() => {
     fetchQuizzes();
   }, []);
-
-  console.log("quizzes", quizzes);
-  console.log("current user", currentUser);
 
   return (
     <div id="wd-quizzes" className="m-5">
@@ -237,10 +252,15 @@ export default function Quizzes() {
                         {currentUser.role === "STUDENT" && (
                           <span>
                             Last attempt score:{" "}
-                            {quiz.attempts.find((attempt) => {
-                              console.log(attempt);
-                              return attempt.user === currentUser._id;
-                            })?.lastScore || "N/A"}
+                            {attempts
+                              .filter((attempt) => 
+                                attempt.quiz === quiz._id && 
+                                attempt.user === currentUser._id
+                              )
+                              .sort((a, b) => 
+                                new Date(b.lastAttempt).getTime() - 
+                                new Date(a.lastAttempt).getTime()
+                              )[0]?.score || "N/A"}
                           </span>
                         )}
                         {/* )}

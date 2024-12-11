@@ -12,31 +12,71 @@ import { addQuiz, updateQuiz } from "./reducer";
 import { useEffect, useState } from "react";
 import ProtectedRouteRole from "../ProtectedRouteRole";
 import { FaPlus } from "react-icons/fa";
-import QuestionEditor from "./QuestionEditor";
+import QuestionEditor, { QuizQuestionType } from "./QuestionEditor";
 import QuizDetailsEditor from "./QuizDetailsEditor";
 import * as coursesClient from "../client";
 
 export default function QuizEditor() {
   const { pathname } = useLocation();
   const { cid, qid } = useParams();
-  const { quizzes } = useSelector((state: any) => state.quizzesReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [quiz, setQuiz] = useState(
-    quizzes.find((quiz: { _id: string | undefined }) => quiz._id === qid) ?? {
-      name: "",
-      course: cid,
-      description: "",
-      questions: [],
+  const fetchQuiz = async () => {
+    try {
+      const returnedQuiz = await coursesClient.getQuizById(
+        cid as string,
+        qid as string
+      );
+      setQuiz(returnedQuiz);
+    } catch (err: any) {
+      console.error("Error fetching quiz:", err);
     }
-  );
-
-  const foundQuiz = quizzes.find((q: any) => q._id === qid);
+  };
+  useEffect(() => {
+    fetchQuiz();
+  }, [pathname]);
+  const [quiz, setQuiz] = useState<{
+    title: string;
+    description: string;
+    quizType: string;
+    assignmentGroup: string;
+    shuffleAnswers: boolean;
+    timeLimit: number;
+    allowMultipleAttempts: boolean;
+    assignTo: string;
+    dueDate: string;
+    availableFrom: string;
+    availableUntil: string;
+    showCorrectAnswers: string;
+    accessCode: string;
+    oneQuestionAtATime: boolean;
+    webcam: boolean;
+    lockQuestions: boolean;
+    questions: QuizQuestionType[];
+    points: number;
+  }>({
+    title: "Quiz Title",
+    description: "",
+    quizType: "Graded Quiz",
+    assignmentGroup: "Quizzes",
+    shuffleAnswers: true,
+    timeLimit: 20,
+    allowMultipleAttempts: false,
+    assignTo: "Everyone",
+    dueDate: "",
+    availableFrom: "",
+    availableUntil: "",
+    showCorrectAnswers: "Immediately",
+    accessCode: "",
+    oneQuestionAtATime: true,
+    webcam: false,
+    lockQuestions: false,
+    questions: [],
+    points: 0,
+  });
 
   const handleSubmit = async (quiz: any) => {
-    if (foundQuiz) {
-      console.log("Updating Quiz");
-      console.log(quiz);
+    if (quiz._id) {
       const updatedQuiz = await coursesClient.updateQuizForCourse(
         cid as string,
         quiz
@@ -44,7 +84,6 @@ export default function QuizEditor() {
       dispatch(updateQuiz(updatedQuiz));
       navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}`);
     } else {
-      console.log("Creating New Quiz");
       const newQuiz = await coursesClient.createQuizForCourse(
         cid as string,
         quiz
@@ -56,9 +95,7 @@ export default function QuizEditor() {
   };
 
   const handleSubmitAndPublish = async (quiz: any) => {
-    if (foundQuiz) {
-      console.log("Updating Quiz");
-      console.log(quiz);
+    if (quiz._id) {
       const updatedQuiz = await coursesClient.updateQuizForCourse(
         cid as string,
         { ...quiz, published: true }
@@ -66,7 +103,6 @@ export default function QuizEditor() {
       dispatch(updateQuiz(updatedQuiz));
       navigate(`/Kanbas/Courses/${cid}/Quizzes`);
     } else {
-      console.log("Creating New Quiz");
       const newQuiz = await coursesClient.createQuizForCourse(cid as string, {
         ...quiz,
         published: true,
@@ -84,9 +120,11 @@ export default function QuizEditor() {
       type: "Multiple Choice",
       choice: [],
       edit: false,
+      question: "Question...",
     };
     setQuiz({ ...quiz, questions: [...quiz.questions, newQuestion] });
   };
+
   return (
     <ProtectedRouteRole>
       <div className="col col-lg-8 align-items-center justify-content-center ms-auto me-auto">
@@ -94,12 +132,12 @@ export default function QuizEditor() {
           <div className="fs-4 ms-auto">
             Points:{" "}
             {quiz.questions.reduce(
-              (sumQuestions: any, question: { points: any }) =>
+              (sumQuestions: number, question: QuizQuestionType) =>
                 sumQuestions + (question.points || 0),
-              0,
               0
             )}
           </div>
+
           {pathname.includes("Questions") && (
             <button
               id="wd-add-question"
@@ -154,8 +192,16 @@ export default function QuizEditor() {
                   updateQuestion={(question) => {
                     setQuiz({
                       ...quiz,
-                      questions: quiz.questions.map((q: { _id: string }) =>
+                      questions: quiz.questions.map((q) =>
                         q._id === question._id ? question : q
+                      ),
+                      points: quiz.questions.reduce(
+                        (sumQuestions, q) =>
+                          sumQuestions +
+                          ((q._id === question._id
+                            ? question.points
+                            : q.points) || 0),
+                        0
                       ),
                     });
                   }}
@@ -184,7 +230,8 @@ export default function QuizEditor() {
           <QuizDetailsEditor
             handleSubmit={handleSubmit}
             handleSubmitAndPublish={handleSubmitAndPublish}
-            quizzes={quizzes}
+            thisQuiz={quiz}
+            fetchQuiz={fetchQuiz}
             qid={qid as string}
           />
         )}

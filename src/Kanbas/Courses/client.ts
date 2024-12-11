@@ -62,38 +62,6 @@ export const findUsersForCourse = async (courseId: string) => {
 
 
 //QUIZZES
-// export const findQuizForCourse = async (courseId: string) => {
-//   const response = await axiosWithCredentials.get(`${COURSES_API}/${courseId}/quizzes`);
-//   return response.data;
-// };
-
-// export const createQuiz = async (
-//   quiz: any
-// ) => {
-//   const response = await axiosWithCredentials.post(
-//     `${QUIZZES_API}`,
-//     quiz
-//   );
-//   return response.data;
-// };
-
-// export const updateQuiz = async (quiz: any) => {
-//   const response = await axiosWithCredentials.put(
-//     `${QUIZZES_API}/${quiz._id}`,
-//     quiz
-//   );
-//   return response.data;
-// };
-
-// export const deleteQuiz = async (quizId: string) => {
-//   const response = await axiosWithCredentials.delete(`${QUIZZES_API}/${quizId}`);
-//   return response.data;
-// };
-
-// export const findQuizById = async (quizId: string | undefined) => {
-//   const response = await axiosWithCredentials.get(`${QUIZZES_API}/${quizId}`);
-//   return response.data;
-// };
 
 
 // Quiz endpoints
@@ -135,6 +103,13 @@ export const publishQuiz = async (courseId: string, quizId: string) => {
 export const unpublishQuiz = async (courseId: string, quizId: string) => {
   const response = await axiosWithCredentials.put(
     `${COURSES_API}/${courseId}/quizzes/${quizId}/unpublish`
+  );
+  return response.data;
+}
+
+export const getQuizById = async (courseId: string, quizId: string) => {
+  const response = await axiosWithCredentials.get(
+    `${COURSES_API}/${courseId}/quizzes/${quizId}`
   );
   return response.data;
 }

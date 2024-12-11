@@ -6,45 +6,50 @@ import Editor from "react-simple-wysiwyg";
 export default function QuizDetailsEditor({
   handleSubmit,
   handleSubmitAndPublish,
-  quizzes,
+  thisQuiz,
   qid,
 }: {
   handleSubmit: (quiz: any) => void;
   handleSubmitAndPublish: (quiz: any) => void;
-  quizzes: any[];
+  thisQuiz: any;
+  fetchQuiz: () => void;
   qid: string;
 }) {
   const { cid } = useParams();
 
-  const [quiz, setQuiz] = useState({
-    _id: "",
-    title: "Quiz Title",
-    description: "",
-    quizType: "Graded Quiz",
-    assignmentGroup: "Quizzes",
-    shuffleAnswers: true,
-    timeLimit: 20,
-    allowMultipleAttempts: false,
-    assignTo: "Everyone",
-    dueDate: "",
-    availableFrom: "",
-    availableUntil: "",
-    showCorrectAnswers: "Immediately",
-    accessCode: "",
-    oneQuestionAtATime: true,
-    webcam: false,
-    lockQuestions: false,
-  });
-
-  const foundQuiz = quizzes.find((q: any) => q._id === qid);
-  useEffect(() => {
-    if (foundQuiz) {
-      setQuiz(foundQuiz);
+  const [quiz, setQuiz] = useState(
+    thisQuiz || {
+      _id: "",
+      title: "Quiz Title",
+      description: "",
+      quizType: "Graded Quiz",
+      assignmentGroup: "Quizzes",
+      shuffleAnswers: true,
+      timeLimit: 20,
+      allowMultipleAttempts: false,
+      assignTo: "Everyone",
+      dueDate: "",
+      availableFrom: "",
+      availableUntil: "",
+      showCorrectAnswers: "Immediately",
+      accessCode: "",
+      oneQuestionAtATime: true,
+      webcam: false,
+      lockQuestions: false,
+      points: 0,
     }
-  }, [foundQuiz]);
+  );
+
+  useEffect(() => {
+    setQuiz(thisQuiz);
+  }, [thisQuiz]);
 
   const handleChange = (field: any, value: any) => {
-    setQuiz({ ...quiz, [field]: value });
+    if (field === "allowMultipleAttempts" && value === false) {
+      setQuiz({ ...quiz, [field]: value, maxAttempts: 1 });
+    } else {
+      setQuiz({ ...quiz, [field]: value });
+    }
   };
 
   return (
@@ -68,7 +73,7 @@ export default function QuizDetailsEditor({
         <label htmlFor="quiz-type">Quiz Type</label>
         <select
           id="quiz-type"
-          className="form-control"
+          className="form-control form-select"
           value={quiz.quizType}
           onChange={(e) => handleChange("quizType", e.target.value)}
         >
@@ -83,7 +88,7 @@ export default function QuizDetailsEditor({
         <label htmlFor="assignment-group">Assignment Group</label>
         <select
           id="assignment-group"
-          className="form-control"
+          className="form-control form-select"
           value={quiz.assignmentGroup}
           onChange={(e) => handleChange("assignmentGroup", e.target.value)}
         >
@@ -145,13 +150,30 @@ export default function QuizDetailsEditor({
             type="checkbox"
             className="form-check-input"
             checked={quiz.allowMultipleAttempts}
-            onChange={(e) =>
-              handleChange("allowMultipleAttempts", e.target.checked)
-            }
+            onChange={(e) => {
+              handleChange("allowMultipleAttempts", e.target.checked);
+            }}
           />
           <label htmlFor="multiple-attempts" className="form-check-label">
             Allow Multiple Attempts
           </label>
+          {quiz.allowMultipleAttempts && (
+            <div className="input-group ">
+              <input
+                id="multiple-attempts"
+                type="number"
+                className="form-control w-50"
+                placeholder="Max Attempts"
+                value={quiz.maxAttempts}
+                onChange={(e) => handleChange("maxAttempts", e.target.value)}
+              />
+              <div className="input-group-append">
+                <span className="input-group-text" id="basic-addon3">
+                  attempts
+                </span>
+              </div>
+            </div>
+          )}
         </div>
         <div className="form-check mt-2">
           <input
@@ -195,7 +217,7 @@ export default function QuizDetailsEditor({
           <label htmlFor="show-correct-answers">Show Correct Answers</label>
           <select
             id="show-correct-answers"
-            className="form-control"
+            className="form-control form-select"
             value={quiz.showCorrectAnswers}
             onChange={(e) => handleChange("showCorrectAnswers", e.target.value)}
           >
@@ -220,7 +242,7 @@ export default function QuizDetailsEditor({
           <label htmlFor="assign-to">Assign To</label>
           <select
             id="assign-to"
-            className="form-control"
+            className="form-control form-select"
             value={quiz.assignTo}
             onChange={(e) => handleChange("assignTo", e.target.value)}
           >

@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import * as quizzesClient from "./client";
-import * as coursesClient from "../client";
+import * as quizzesClient from "./client"; // Ensure this includes getLatestAttemptForQuiz
+import * as coursesClient from "../client"; // If needed
 import { FaPencil } from "react-icons/fa6";
 import { setQuizzes } from "./reducer";
 
@@ -25,12 +25,24 @@ interface Quiz {
   dueDate: string | null;
   availableFrom: string | null;
   availableUntil: string | null;
+  // Add other quiz properties as needed
 }
 
 interface User {
   _id: string;
   role: "STUDENT" | "FACULTY" | "ADMIN";
   // Add other user properties as needed
+}
+
+interface Attempt {
+  lastAttempt: string | number | Date;
+  _id: string;
+  quizId: string;
+  userId: string;
+  attemptCount: number;
+  score: number;
+  completedAt: string;
+  // Add other attempt properties as needed
 }
 
 interface RootState {
@@ -45,10 +57,11 @@ interface RootState {
 const QuizDetails: React.FC = () => {
   const { cid, qid } = useParams<{ cid: string; qid: string }>();
   const navigate = useNavigate();
-  const { quizzes } = useSelector((state: RootState) => state.quizzesReducer);
   const { currentUser } = useSelector(
     (state: RootState) => state.accountReducer
   );
+  const dispatch = useDispatch();
+
   const defaultQuiz = {
     course: cid,
     questions: [],
@@ -71,19 +84,44 @@ const QuizDetails: React.FC = () => {
     webcam: false,
     lockQuestions: false,
   };
+
+  // Existing state for user attempts
   const [userAttempts, setUserAttempts] = useState<number | null>(null);
   const [loadingAttempts, setLoadingAttempts] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  // const [quiz, setQuiz] = useState<Quiz>(initialQuiz);
 
-  // Find the current quiz based on qid
-  const this_quiz = quizzes.find((quiz) => quiz._id === qid);
+  // New state for the latest attempt
+  const [latestAttempt, setLatestAttempt] = useState<Attempt | null>(null);
+  const [loadingLatestAttempt, setLoadingLatestAttempt] =
+    useState<boolean>(true);
+  const [latestAttemptError, setLatestAttemptError] = useState<string | null>(
+    null
+  );
+
+  const fetchQuiz = async () => {
+    try {
+      const returnedQuiz = await coursesClient.getQuizById(
+        cid as string,
+        qid as string
+      );
+      setQuiz(returnedQuiz);
+    } catch (err: any) {
+      console.error("Error fetching quiz:", err);
+    }
+  };
+  useEffect(() => {
+    fetchQuiz();
+  }, []);
+
+  const [this_quiz, setQuiz] = useState(defaultQuiz);
 
   useEffect(() => {
     const fetchUserAttempts = async () => {
-      if (currentUser && currentUser._id && cid && qid) {
+      if (currentUser && currentUser._id && qid && cid) {
         try {
+          // Fetch the number of attempts the user has made
           const attemptData = await quizzesClient.getUserQuizAttempts(cid, qid);
-          console.log("attemptData", attemptData);
           setUserAttempts(attemptData.attemptCount);
         } catch (err: any) {
           console.error("Error fetching user attempts:", err);
@@ -96,10 +134,27 @@ const QuizDetails: React.FC = () => {
       }
     };
 
+    const fetchLatestAttempt = async () => {
+      if (currentUser && currentUser._id && qid) {
+        try {
+          const latest = await quizzesClient.getLatestAttemptForQuiz(qid);
+          setLatestAttempt(latest);
+        } catch (err: any) {
+          console.error("Error fetching latest attempt:", err);
+          setLatestAttemptError("No prior attempts.");
+        } finally {
+          setLoadingLatestAttempt(false);
+        }
+      } else {
+        setLoadingLatestAttempt(false);
+      }
+    };
+
     if (currentUser && this_quiz) {
       fetchUserAttempts();
+      fetchLatestAttempt();
     }
-  }, [cid, qid, currentUser, this_quiz]);
+  }, [qid, currentUser, this_quiz]);
 
   const handleBeginQuiz = async () => {
     if (!currentUser || !currentUser._id) {
@@ -137,7 +192,7 @@ const QuizDetails: React.FC = () => {
       // Navigate to the quiz attempt page
       navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/Attempt`);
     } catch (err: any) {
-      console.error("Error incrementing quiz attempt:", err);
+      console.error("Error beginning the quiz:", err);
       alert("Failed to begin the quiz. Please try again later.");
     }
   };
@@ -148,6 +203,7 @@ const QuizDetails: React.FC = () => {
 
   return (
     <div>
+      {/* Quiz Details */}
       {(currentUser?.role === "FACULTY" || currentUser?.role === "ADMIN") && (
         <div>
           <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Preview`}>
@@ -159,6 +215,7 @@ const QuizDetails: React.FC = () => {
               Edit
             </button>
           </Link>
+
           <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Review`}>
             <button className="btn btn-secondary ms-2">
               Review Last Attempt
@@ -209,7 +266,11 @@ const QuizDetails: React.FC = () => {
                 <strong>Time Limit</strong>
               </span>
             </div>
-            <div className="col-9">{this_quiz.timeLimit} minutes</div>
+            <div className="col-9">
+              {this_quiz.timeLimit === -1
+                ? "None"
+                : this_quiz.timeLimit + " minutes"}
+            </div>
           </div>
           <div className="row">
             <div className="col-3 text-end">
@@ -341,18 +402,27 @@ const QuizDetails: React.FC = () => {
       {currentUser?.role === "STUDENT" && (
         <div>
           <button
-            className="btn btn-danger ms-3"
+            className="btn btn-danger"
             onClick={handleBeginQuiz}
             disabled={loadingAttempts}
           >
             {loadingAttempts ? "Loading..." : "Begin Quiz"}
           </button>
-          <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Review`}>
-            <button className="btn btn-secondary ms-3">
-              Review Last Attempt
+          {userAttempts !== 0 ? (
+            <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Review`}>
+              <button className="btn btn-secondary ms-2">
+                Review Last Attempt
+              </button>
+            </Link>
+          ) : (
+            <button className="btn btn-secondary ms-2" disabled>
+              No Prior Attempts
             </button>
-          </Link>
+          )}
           {error && <div className="text-danger mt-2">{error}</div>}
+          {latestAttemptError && (
+            <div className="text-danger mt-2">{latestAttemptError}</div>
+          )}
           {!loadingAttempts && (
             <div className="mt-2">
               <strong>
@@ -361,6 +431,24 @@ const QuizDetails: React.FC = () => {
                   ? `${userAttempts} / ${this_quiz.maxAttempts}`
                   : "N/A"}
               </strong>
+            </div>
+          )}
+          {!loadingLatestAttempt && latestAttempt && (
+            <div className="mt-2">
+              <strong>Latest Attempt:</strong>
+              <div>Score: {latestAttempt.score}</div>
+              <div>
+                Completed At:{" "}
+                {new Date(latestAttempt.lastAttempt).toLocaleString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  hour12: true,
+                })}
+              </div>
+              {/* Add more details about the latest attempt as needed */}
             </div>
           )}
         </div>

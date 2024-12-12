@@ -71,8 +71,8 @@ interface AttemptQuestionType {
   answer: string;
   question: string;
   _id: string;
-  // questionId: string;
-  // selectedAnswerIds: string[]; // Array of selected answer IDs for the question
+   questionId: string;
+   selectedAnswerIds: string[]; // Array of selected answer IDs for the question
 }
 
 interface RootState {

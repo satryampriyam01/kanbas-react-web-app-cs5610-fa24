@@ -111,12 +111,13 @@ export const getAttemptById = async (attemptId: string) => {
 export const createAttempt = async (
   courseId: string,
   quizId: string,
-  attemptData: object
+  attemptData: object,
 ) => {
   try {
     const response = await axiosWithCredentials.post(
       `${QUIZZES_API}/${quizId}/attempts`,
       attemptData
+      
     );
     return response.data; // Newly created attempt
   } catch (error) {
